@@ -1,0 +1,28 @@
+<%= form_for(@money_transfer) do |f| %>
+  <% if @money_transfer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@money_transfer.errors.count, "error") %> prohibited this transfer from being saved:</h2>
+
+      <ul>
+      <% @money_transfer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= hidden_field_tag("money_transfer[sender_id]", current_user.id) %>
+
+  <div>
+    <%= f.label(:receiver_id, "Who do you want to send") %><br />
+    <%= f.collection_select(:receiver_id, @users, :id, :email, prompt: true) %><br />
+  </div>
+  <div>
+    <%= f.label(:amount, "Amount to be transfered") %><br />
+    <%= f.text_field(:amount) %><br />
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

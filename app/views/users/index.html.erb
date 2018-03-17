@@ -1,0 +1,34 @@
+<h1>All Users</h1>
+
+<%= link_to "All Transfers", money_transfers_path %>
+
+<% if @users.any? %>
+  <div class="users">
+    <table class="users table-striped table-bordered">
+      <thead>
+        <tr>
+          <td>Email</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.email %></td>
+            <% if current_user == user %>
+              <td><%= link_to("Get My Info", user_path(user)) %> |
+              <%= link_to("Edit Profile", edit_user_path(user)) %></td>
+            <% else %>
+              <td><%= link_to("See Transactions", user_path(user)) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="message">
+    There have been no Users.
+  </div>
+<% end %>

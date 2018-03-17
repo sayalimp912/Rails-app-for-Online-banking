@@ -1,0 +1,37 @@
+<% if @money_transfers.any? %>
+  <div class="money_transfers">
+    <table class="money_transfers__table table-striped table-bordered">
+      <thead>
+        <tr>
+          <td>Sender</td>
+          <td>Receiver</td>
+          <td>Amount</td>
+          <td>Date</td>
+          <td>Status</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @money_transfers.each do |transfer| %>
+          <tr>
+            <td><%= transfer.sender.email %></td>
+            <td><%= transfer.receiver.email %></td>
+            <td><%= transfer.amount %></td>
+            <td><%= transfer.created_at %></td>
+            <td id: "<%=transfer.id%>-td"><%= transfer.status %></td>
+            <% if transfer.receiver.email == current_user.email && transfer.status == MoneyTransfer::PENDING %>
+              <td><%= link_to("Accept Transaction",'#', { onclick: "MoneyTransfer.acceptTransfer(#{transfer.id})" }) %></td>
+            <% else %>
+              <td></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="message">
+    There have been no Money Transfers.
+  </div>
+<% end %>
